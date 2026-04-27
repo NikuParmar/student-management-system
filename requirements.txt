@@ -1,19 +1,15 @@
 # Student Management System - Dependencies
 
-# Flask and extensions
 flask==3.0.0
 flask-bcrypt==1.0.1
 flask-login==0.6.3
 flask-mail==0.9.1
 
-# Data handling
-pandas==2.1.0
+pandas==2.2.2
 xlsxwriter==3.1.2
 
-# PDF generation
 reportlab==4.0.7
 
-# Additional utilities
 python-dotenv==1.0.0
 Werkzeug==3.0.0
-
+gunicorn==22.0.0
