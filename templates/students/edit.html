@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Student - Student Management System{% endblock %}
+
+{% block content %}
+<div class="edit-student-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-user-edit me-2"></i>Edit Student</h2>
+            <p class="text-muted">Update student information</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            {% if errors %}
+            <div class="alert alert-danger">
+                <h5><i class="fas fa-exclamation-triangle me-2"></i>Please correct the following errors:</h5>
+                <ul class="mb-0">
+                    {% for error in errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+            <form method="POST" action="{{ url_for('students.edit_student', student_id=student[0]) }}" class="row g-3">
+                <div class="col-md-6">
+                    <label for="name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" id="name" name="name" 
+                               placeholder="Enter full name" required
+                               value="{{ form_data.name if form_data else student[1] }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="enrollment_number" class="form-label">Enrollment Number <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-id-card"></i></span>
+                        <input type="text" class="form-control" id="enrollment_number" name="enrollment_number" 
+                               placeholder="e.g., ENR20240001" required
+                               value="{{ form_data.enrollment_number if form_data else student[3] }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" id="email" name="email" 
+                               placeholder="student@example.com" required
+                               value="{{ form_data.email if form_data else student[2] }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="phone" class="form-label">Phone Number</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                        <input type="tel" class="form-control" id="phone" name="phone" 
+                               placeholder="Enter phone number"
+                               value="{{ form_data.phone if form_data else student[6] }}">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="course" class="form-label">Course <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-book"></i></span>
+                        <select class="form-select" id="course" name="course" required>
+                            <option value="">Select Course</option>
+                            <option value="B.Tech" {% if (form_data and form_data.course == 'B.Tech') or (not form_data and student[4] == 'B.Tech') %}selected{% endif %}>B.Tech</option>
+                            <option value="BBA" {% if (form_data and form_data.course == 'BBA') or (not form_data and student[4] == 'BBA') %}selected{% endif %}>BBA</option>
+                            <option value="BCA" {% if (form_data and form_data.course == 'BCA') or (not form_data and student[4] == 'BCA') %}selected{% endif %}>BCA</option>
+                            <option value="B.Com" {% if (form_data and form_data.course == 'B.Com') or (not form_data and student[4] == 'B.Com') %}selected{% endif %}>B.Com</option>
+                            <option value="B.Sc" {% if (form_data and form_data.course == 'B.Sc') or (not form_data and student[4] == 'B.Sc') %}selected{% endif %}>B.Sc</option>
+                            <option value="M.Tech" {% if (form_data and form_data.course == 'M.Tech') or (not form_data and student[4] == 'M.Tech') %}selected{% endif %}>M.Tech</option>
+                            <option value="MBA" {% if (form_data and form_data.course == 'MBA') or (not form_data and student[4] == 'MBA') %}selected{% endif %}>MBA</option>
+                            <option value="MCA" {% if (form_data and form_data.course == 'MCA') or (not form_data and student[4] == 'MCA') %}selected{% endif %}>MCA</option>
+                            <option value="M.Com" {% if (form_data and form_data.course == 'M.Com') or (not form_data and student[4] == 'M.Com') %}selected{% endif %}>M.Com</option>
+                            <option value="M.Sc" {% if (form_data and form_data.course == 'M.Sc') or (not form_data and student[4] == 'M.Sc') %}selected{% endif %}>M.Sc</option>
+                            <option value="Other" {% if (form_data and form_data.course == 'Other') or (not form_data and student[4] == 'Other') %}selected{% endif %}>Other</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="year" class="form-label">Year <span class="text-danger">*</span></label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                        <select class="form-select" id="year" name="year" required>
+                            <option value="">Select Year</option>
+                            <option value="1" {% if (form_data and form_data.year == '1') or (not form_data and student[5] == 1) %}selected{% endif %}>1st Year</option>
+                            <option value="2" {% if (form_data and form_data.year == '2') or (not form_data and student[5] == 2) %}selected{% endif %}>2nd Year</option>
+                            <option value="3" {% if (form_data and form_data.year == '3') or (not form_data and student[5] == 3) %}selected{% endif %}>3rd Year</option>
+                            <option value="4" {% if (form_data and form_data.year == '4') or (not form_data and student[5] == 4) %}selected{% endif %}>4th Year</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <label for="address" class="form-label">Address</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fas fa-home"></i></span>
+                        <textarea class="form-control" id="address" name="address" rows="3" 
+                                  placeholder="Enter address">{{ form_data.address if form_data else student[7] }}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-12 text-center mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg me-2">
+                        <i class="fas fa-save me-2"></i>Update Student
+                    </button>
+                    <a href="{{ url_for('students.list_students') }}" class="btn btn-secondary btn-lg">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Feature Requests - Student Management System{% endblock %}
+
+{% block content %}
+<div class="feature-requests-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-lightbulb me-2"></i>Feature Requests</h2>
+            <p class="text-muted">Manage feature requests from users</p>
+        </div>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag me-1"></i> ID</th>
+                            <th><i class="fas fa-heading me-1"></i> Title</th>
+                            <th><i class="fas fa-align-left me-1"></i> Description</th>
+                            <th><i class="fas fa-user-tag me-1"></i> User Role</th>
+                            <th><i class="fas fa-user me-1"></i> Requested By</th>
+                            <th><i class="fas fa-clock me-1"></i> Date</th>
+                            <th><i class="fas fa-info-circle me-1"></i> Status</th>
+                            <th><i class="fas fa-cogs me-1"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if requests %}
+                        {% for req in requests %}
+                        <tr>
+                            <td>{{ req[0] }}</td>
+                            <td><strong>{{ req[1] }}</strong></td>
+                            <td>
+                                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#descModal{{ req[0] }}">
+                                    <i class="fas fa-eye"></i> View
+                                </button>
+                                <!-- Description Modal -->
+                                <div class="modal fade" id="descModal{{ req[0] }}" tabindex="-1">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{ req[1] }}</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p>{{ req[2] }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge bg-info">{{ req[4] }}</span></td>
+                            <td>{{ req[6] }}</td>
+                            <td>{{ req[7] }}</td>
+                            <td>
+                                {% if req[5] == 'pending' %}
+                                <span class="badge bg-warning">Pending</span>
+                                {% elif req[5] == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                                {% elif req[5] == 'denied' %}
+                                <span class="badge bg-danger">Denied</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ req[5] }}</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <form method="POST" action="{{ url_for('admin.update_feature_request', request_id=req[0]) }}" class="d-inline">
+                                    <select name="status" class="form-select form-select-sm d-inline-block" style="width: auto;" onchange="this.form.submit()">
+                                        <option value="pending" {% if req[5] == 'pending' %}selected{% endif %}>Pending</option>
+                                        <option value="approved" {% if req[5] == 'approved' %}selected{% endif %}>Approved</option>
+                                        <option value="denied" {% if req[5] == 'denied' %}selected{% endif %}>Denied</option>
+                                        <option value="implemented" {% if req[5] == 'implemented' %}selected{% endif %}>Implemented</option>
+                                    </select>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="8" class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No feature requests found</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

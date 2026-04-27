@@ -1,0 +1,176 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Student Management System{% endblock %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard</h2>
+            <p class="text-muted">Welcome back, {{ session['user'] }}!</p>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card stat-card-primary">
+                <div class="stat-icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ total_students }}</h3>
+                    <p>Total Students</p>
+                </div>
+                <a href="{{ url_for('students.list_students') }}" class="stat-link">
+                    View All <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stat-card stat-card-success">
+                <div class="stat-icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ total_faculty }}</h3>
+                    <p>Total Faculty</p>
+                </div>
+                <a href="{{ url_for('admin.manage_users') }}?role=faculty" class="stat-link">
+                    View All <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stat-card stat-card-warning">
+                <div class="stat-icon">
+                    <i class="fas fa-user-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ pending_requests }}</h3>
+                    <p>Pending Requests</p>
+                </div>
+                <a href="{{ url_for('admin.access_requests') }}" class="stat-link">
+                    Review <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="stat-card stat-card-info">
+                <div class="stat-icon">
+                    <i class="fas fa-lightbulb"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>{{ feature_requests_count }}</h3>
+                    <p>Feature Requests</p>
+                </div>
+                <a href="{{ url_for('admin.feature_requests') }}" class="stat-link">
+                    View All <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4><i class="fas fa-bolt me-2"></i>Quick Actions</h4>
+        </div>
+        <div class="col-md-3">
+            <div class="action-card">
+                <a href="{{ url_for('students.add_student') }}" class="btn btn-primary w-100">
+                    <i class="fas fa-user-plus me-2"></i>Add Student
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="action-card">
+                <a href="{{ url_for('students.list_students') }}" class="btn btn-success w-100">
+                    <i class="fas fa-list me-2"></i>View Students
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="action-card">
+                <a href="{{ url_for('admin.access_requests') }}" class="btn btn-warning w-100">
+                    <i class="fas fa-user-check me-2"></i>Access Requests
+                </a>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="action-card">
+                <a href="{{ url_for('admin.activity_logs') }}" class="btn btn-info w-100">
+                    <i class="fas fa-history me-2"></i>Activity Logs
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Recent Activity</h5>
+                </div>
+                <div class="card-body">
+                    {% if recent_activities %}
+                    <div class="activity-list">
+                        {% for activity in recent_activities %}
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                <i class="fas fa-{{ 'fa-sign-in-alt' if activity[3] == 'login' else 'fa-sign-out-alt' if activity[3] == 'logout' else 'fa-user-plus' if 'add' in activity[3] else 'fa-edit' if 'edit' in activity[3] else 'fa-trash' if 'delete' in activity[3] else 'fa-info-circle' }}"></i>
+                            </div>
+                            <div class="activity-details">
+                                <p class="mb-0">{{ activity[4] }}</p>
+                                <small class="text-muted">{{ activity[2] }} - {{ activity[6] }}</small>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center">No recent activity</p>
+                    {% endif %}
+                    <div class="text-center mt-3">
+                        <a href="{{ url_for('admin.activity_logs') }}" class="btn btn-sm btn-outline-primary">
+                            View All Activity
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>System Info</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td><strong>Version</strong></td>
+                            <td>1.0.0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Your Role</strong></td>
+                            <td><span class="badge bg-danger">{{ session['role']|upper }}</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Last Login</strong></td>
+                            <td>Current Session</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Database</strong></td>
+                            <td><span class="badge bg-success">Connected</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

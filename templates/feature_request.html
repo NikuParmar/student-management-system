@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Submit Feature Request - Student Management System{% endblock %}
+
+{% block content %}
+<div class="feature-request-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-lightbulb me-2"></i>Submit Feature Request</h2>
+            <p class="text-muted">Suggest a new feature for the Student Management System</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+                    </div>
+                    {% endif %}
+
+                    {% if success %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>{{ success }}
+                    </div>
+                    {% endif %}
+
+                    <form method="POST" class="row g-3">
+                        <div class="col-12">
+                            <label for="title" class="form-label">Feature Title <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                                <input type="text" class="form-control" id="title" name="title" 
+                                       placeholder="Enter a brief title for your feature request" required
+                                       value="{{ form_data.title if form_data else '' }}">
+                            </div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="request_type" class="form-label">Request Type <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-user-tag"></i></span>
+                                <select class="form-select" id="request_type" name="request_type" required>
+                                    <option value="" selected disabled>Select your role type</option>
+                                    <option value="student" {% if form_data and form_data.request_type == 'student' %}selected{% endif %}>Student</option>
+                                    <option value="staff" {% if form_data and form_data.request_type == 'staff' %}selected{% endif %}>Staff</option>
+                                </select>
+                            </div>
+                            <div class="form-text">Select "Student" if you are a student, or "Staff" if you are faculty or staff</div>
+                        </div>
+                        
+                        <div class="col-12">
+                            <label for="description" class="form-label">Description <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                                <textarea class="form-control" id="description" name="description" rows="5" 
+                                          placeholder="Describe the feature you'd like to see implemented" required>{{ form_data.description if form_data else '' }}</textarea>
+                            </div>
+                        </div>
+                        
+                        <div class="col-12 text-center mt-4">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-paper-plane me-2"></i>Submit Request
+                            </button>
+                        </div>
+                        
+                        <div class="col-12 text-center mt-3">
+                            {% if session.get('role') == 'admin' %}
+                            <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            {% else %}
+                            <a href="{{ url_for('auth.dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+                            </a>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Student Management System{% endblock %}
+
+{% block content %}
+<div class="user-dashboard">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-tachometer-alt me-2"></i>Dashboard</h2>
+            <p class="text-muted">Welcome, {{ session['user'] }}!</p>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4><i class="fas fa-bolt me-2"></i>Quick Actions</h4>
+        </div>
+        <div class="col-md-4">
+            <div class="action-card">
+                <a href="{{ url_for('feature.submit_feature_request') }}" class="btn btn-primary w-100">
+                    <i class="fas fa-lightbulb me-2"></i>Submit Feature Request
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="action-card">
+                <a href="{{ url_for('feature.my_feature_requests') }}" class="btn btn-success w-100">
+                    <i class="fas fa-list me-2"></i>My Requests
+                </a>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="action-card">
+                <a href="{{ url_for('auth.profile') }}" class="btn btn-info w-100">
+                    <i class="fas fa-user-circle me-2"></i>My Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- User Info -->
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-user me-2"></i>My Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th><i class="fas fa-user me-2"></i>Username</th>
+                            <td>{{ session['user'] }}</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-envelope me-2"></i>Email</th>
+                            <td>{{ session['email'] or 'Not set' }}</td>
+                        </tr>
+                        <tr>
+                            <th><i class="fas fa-user-tag me-2"></i>Role</th>
+                            <td>
+                                <span class="badge bg-{% if session['role'] == 'admin' %}danger{% elif session['role'] == 'faculty' %}warning{% else %}info{% endif %}">
+                                    {{ session['role']|upper }}
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0"><i class="fas fa-info-circle me-2"></i>System Information</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <th><strong>Version</strong></th>
+                            <td>1.0.0</td>
+                        </tr>
+                        <tr>
+                            <th><strong>Database</strong></th>
+                            <td><span class="badge bg-success">Connected</span></td>
+                        </tr>
+                        <tr>
+                            <th><strong>Session</strong></th>
+                            <td><span class="badge bg-success">Active</span></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

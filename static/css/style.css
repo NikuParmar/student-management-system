@@ -1,0 +1,543 @@
+/* Student Management System - Main Stylesheet */
+
+/* ============================================
+   CSS Variables
+   ============================================ */
+:root {
+    --primary-color: #667eea;
+    --secondary-color: #764ba2;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #17a2b8;
+    --dark-color: #343a40;
+    --light-color: #f8f9fa;
+    --sidebar-width: 250px;
+    --transition-speed: 0.3s;
+}
+
+/* ============================================
+   Base Styles
+   ============================================ */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f6fa;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+a {
+    text-decoration: none;
+    transition: var(--transition-speed);
+}
+
+/* ============================================
+   Sidebar Styles
+   ============================================ */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: var(--transition-speed);
+}
+
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-header h4 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.sidebar .nav {
+    padding: 10px 0;
+}
+
+.sidebar .nav-link {
+    color: rgba(255, 255, 255, 0.8);
+    padding: 12px 20px;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    transition: var(--transition-speed);
+}
+
+.sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    border-left: 4px solid white;
+}
+
+.sidebar .nav-link i {
+    width: 25px;
+    text-align: center;
+}
+
+.sidebar .badge {
+    margin-left: auto;
+    font-size: 0.75rem;
+}
+
+/* ============================================
+   Main Content Styles
+   ============================================ */
+.main-content {
+    margin-left: var(--sidebar-width);
+    min-height: 100vh;
+    transition: var(--transition-speed);
+}
+
+.navbar {
+    background-color: white !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: 600;
+    color: var(--primary-color) !important;
+}
+
+.navbar .nav-link {
+    color: var(--dark-color) !important;
+}
+
+.navbar .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* ============================================
+   Dashboard Cards (Statistics)
+   ============================================ */
+.stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    transition: var(--transition-speed);
+    position: relative;
+    overflow: hidden;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+}
+
+.stat-card-primary::before {
+    background: var(--primary-color);
+}
+
+.stat-card-success::before {
+    background: var(--success-color);
+}
+
+.stat-card-warning::before {
+    background: var(--warning-color);
+}
+
+.stat-card-info::before {
+    background: var(--info-color);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.stat-card-primary .stat-icon {
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+}
+
+.stat-card-success .stat-icon {
+    background: rgba(40, 167, 69, 0.1);
+    color: var(--success-color);
+}
+
+.stat-card-warning .stat-icon {
+    background: rgba(255, 193, 7, 0.1);
+    color: #d39e00;
+}
+
+.stat-card-info .stat-icon {
+    background: rgba(23, 162, 184, 0.1);
+    color: var(--info-color);
+}
+
+.stat-info h3 {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--dark-color);
+}
+
+.stat-info p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.stat-link {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    opacity: 0;
+    transition: var(--transition-speed);
+}
+
+.stat-card:hover .stat-link {
+    opacity: 1;
+}
+
+/* ============================================
+   Action Cards
+   ============================================ */
+.action-card {
+    margin-bottom: 15px;
+}
+
+.action-card .btn {
+    padding: 15px 20px;
+    font-weight: 500;
+    border-radius: 8px;
+    transition: var(--transition-speed);
+}
+
+.action-card .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================
+   Card Styles
+   ============================================ */
+.card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    transition: var(--transition-speed);
+}
+
+.card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.card-header {
+    background: white;
+    border-bottom: 1px solid #eee;
+    padding: 15px 20px;
+    font-weight: 600;
+    border-radius: 12px 12px 0 0 !important;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* ============================================
+   Table Styles
+   ============================================ */
+.table {
+    margin-bottom: 0;
+}
+
+.table thead th {
+    border-bottom: 2px solid #eee;
+    color: #6c757d;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    padding: 12px 15px;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.table .btn-group-sm .btn {
+    padding: 2px 6px;
+    font-size: 0.8rem;
+}
+
+/* ============================================
+   Form Styles
+   ============================================ */
+.form-label {
+    font-weight: 500;
+    color: #444;
+    margin-bottom: 5px;
+}
+
+.form-control, .form-select {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 15px;
+    transition: var(--transition-speed);
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+}
+
+.input-group-text {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 8px 0 0 8px;
+}
+
+/* ============================================
+   Button Styles
+   ============================================ */
+.btn {
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: var(--transition-speed);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-lg {
+    padding: 12px 24px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a6fd6 0%, #6a4190 100%);
+}
+
+/* ============================================
+   Badge Styles
+   ============================================ */
+.badge {
+    padding: 5px 10px;
+    font-weight: 500;
+    border-radius: 6px;
+}
+
+/* ============================================
+   Alert Styles
+   ============================================ */
+.alert {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+}
+
+/* ============================================
+   Pagination Styles
+   ============================================ */
+.pagination {
+    margin-top: 20px;
+}
+
+.page-link {
+    color: var(--primary-color);
+    border-radius: 6px;
+    margin: 0 3px;
+}
+
+.page-item.active .page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link:hover {
+    color: var(--secondary-color);
+}
+
+/* ============================================
+   Activity List Styles
+   ============================================ */
+.activity-list {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.activity-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.activity-item:last-child {
+    border-bottom: none;
+}
+
+.activity-icon {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: rgba(102, 126, 234, 0.1);
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.activity-details p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #444;
+}
+
+.activity-details small {
+    font-size: 0.8rem;
+}
+
+/* ============================================
+   Profile Avatar Styles
+   ============================================ */
+.profile-avatar, .student-avatar {
+    color: var(--primary-color);
+}
+
+.profile-avatar {
+    color: var(--primary-color);
+}
+
+/* ============================================
+   Modal Styles
+   ============================================ */
+.modal-content {
+    border: none;
+    border-radius: 12px;
+}
+
+.modal-header {
+    border-bottom: 1px solid #eee;
+    border-radius: 12px 12px 0 0;
+}
+
+.modal-footer {
+    border-top: 1px solid #eee;
+}
+
+/* ============================================
+   Responsive Styles
+   ============================================ */
+@media (max-width: 991.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+    
+    .sidebar.show {
+        transform: translateX(0);
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+    
+    .stat-card {
+        margin-bottom: 15px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .stat-info h3 {
+        font-size: 1.5rem;
+    }
+    
+    .table-responsive {
+        font-size: 0.9rem;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 2px 4px;
+    }
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.shadow-sm {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.shadow-md {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rounded-12 {
+    border-radius: 12px;
+}
+

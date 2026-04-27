@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Logs - Student Management System{% endblock %}
+
+{% block content %}
+<div class="activity-logs-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-history me-2"></i>Activity Logs</h2>
+            <p class="text-muted">View system activity history</p>
+        </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Filter by Username</label>
+                    <input type="text" class="form-control" name="username" placeholder="Enter username" value="{{ username_filter }}">
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary me-2">
+                        <i class="fas fa-filter me-1"></i> Filter
+                    </button>
+                    <a href="{{ url_for('admin.activity_logs') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-redo me-1"></i> Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Activity Logs Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag me-1"></i> ID</th>
+                            <th><i class="fas fa-user me-1"></i> Username</th>
+                            <th><i class="fas fa-bolt me-1"></i> Action</th>
+                            <th><i class="fas fa-info-circle me-1"></i> Details</th>
+                            <th><i class="fas fa-clock me-1"></i> Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if activities %}
+                        {% for activity in activities %}
+                        <tr>
+                            <td>{{ activity[0] }}</td>
+                            <td>{{ activity[2] }}</td>
+                            <td>
+                                {% if 'login' in activity[3] %}
+                                <span class="badge bg-success">Login</span>
+                                {% elif 'logout' in activity[3] %}
+                                <span class="badge bg-secondary">Logout</span>
+                                {% elif 'add' in activity[3] %}
+                                <span class="badge bg-primary">Add</span>
+                                {% elif 'edit' in activity[3] %}
+                                <span class="badge bg-warning">Edit</span>
+                                {% elif 'delete' in activity[3] %}
+                                <span class="badge bg-danger">Delete</span>
+                                {% elif 'export' in activity[3] %}
+                                <span class="badge bg-info">Export</span>
+                                {% elif 'search' in activity[3] %}
+                                <span class="badge bg-light text-dark">Search</span>
+                                {% else %}
+                                <span class="badge bg-secondary">{{ activity[3] }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ activity[4] or '-' }}</td>
+                            <td>{{ activity[6] }}</td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+                                <i class="fas fa-history fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No activity logs found</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

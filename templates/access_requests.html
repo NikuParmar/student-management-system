@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Access Requests - Student Management System{% endblock %}
+
+{% block content %}
+<div class="access-requests-page">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2><i class="fas fa-user-plus me-2"></i>Access Requests</h2>
+            <p class="text-muted">Manage user access requests</p>
+        </div>
+    </div>
+
+    <!-- Filter -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <form method="GET" class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Filter by Status</label>
+                    <select class="form-select" name="status" onchange="this.form.submit()">
+                        <option value="">All Requests</option>
+                        <option value="pending" {% if status_filter == 'pending' %}selected{% endif %}>Pending</option>
+                        <option value="approved" {% if status_filter == 'approved' %}selected{% endif %}>Approved</option>
+                        <option value="denied" {% if status_filter == 'denied' %}selected{% endif %}>Denied</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Requests Table -->
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-hashtag me-1"></i> ID</th>
+                            <th><i class="fas fa-user me-1"></i> Username</th>
+                            <th><i class="fas fa-envelope me-1"></i> Email</th>
+                            <th><i class="fas fa-user-tag me-1"></i> Role</th>
+                            <th><i class="fas fa-clock me-1"></i> Requested</th>
+                            <th><i class="fas fa-info-circle me-1"></i> Status</th>
+                            <th><i class="fas fa-cogs me-1"></i> Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if requests %}
+                        {% for req in requests %}
+                        <tr>
+                            <td>{{ req[0] }}</td>
+                            <td><strong>{{ req[1] }}</strong></td>
+                            <td>{{ req[3] }}</td>
+                            <td>
+                                {% if req[4] == 'admin' %}
+                                <span class="badge bg-danger">{{ req[4] }}</span>
+                                {% elif req[4] == 'faculty' %}
+                                <span class="badge bg-warning">{{ req[4] }}</span>
+                                {% else %}
+                                <span class="badge bg-info">{{ req[4] }}</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ req[6] }}</td>
+                            <td>
+                                {% if req[4] == 'pending' %}
+                                <span class="badge bg-warning">Pending</span>
+                                {% elif req[4] == 'approved' %}
+                                <span class="badge bg-success">Approved</span>
+                                {% else %}
+                                <span class="badge bg-danger">Denied</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if req[4] == 'pending' %}
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ url_for('admin.approve_request', request_id=req[0]) }}" 
+                                       class="btn btn-sm btn-success" title="Approve"
+                                       onclick="return confirm('Approve this access request?');">
+                                        <i class="fas fa-check"></i>
+                                    </a>
+                                    <a href="{{ url_for('admin.deny_request', request_id=req[0]) }}" 
+                                       class="btn btn-sm btn-danger" title="Deny"
+                                       onclick="return confirm('Deny this access request?');">
+                                        <i class="fas fa-times"></i>
+                                    </a>
+                                </div>
+                                {% else %}
+                                <span class="text-muted">-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        {% else %}
+                        <tr>
+                            <td colspan="7" class="text-center py-4">
+                                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                                <p class="text-muted">No access requests found</p>
+                            </td>
+                        </tr>
+                        {% endif %}
+                    </tbody>
+                </div>
+        </table>
+            </div>
+    </div>
+</div>
+{% endblock %}
+
