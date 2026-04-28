@@ -32,8 +32,9 @@ app.register_blueprint(student_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(feature_bp)
 
-DB_NAME = 'database.db'
-
+#DB_NAME = 'database.db'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DB_NAME = os.path.join(BASE_DIR, 'database.db')
 
 def get_db():
     """Get database connection"""
